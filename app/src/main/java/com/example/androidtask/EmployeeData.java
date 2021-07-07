@@ -4,16 +4,19 @@ import android.widget.DatePicker;
 
 public class EmployeeData {
     private String name;
-    private double salary;
+    private String salary;
     private Boolean active;
     private DatePicker date;
     enum Gender{
         Male,Female
     }
 
-    public EmployeeData(String name, double salary, Boolean active, DatePicker date) {
+    public EmployeeData(String name, String salary) {
         this.name = name;
         this.salary = salary;
+    }
+
+    public EmployeeData(Boolean active, DatePicker date) {
         this.active = active;
         this.date = date;
     }
@@ -26,11 +29,11 @@ public class EmployeeData {
         this.name = name;
     }
 
-    public double getSalary() {
+    public String getSalary() {
         return salary;
     }
 
-    public void setSalary(double salary) {
+    public void setSalary(String salary) {
         this.salary = salary;
     }
 
