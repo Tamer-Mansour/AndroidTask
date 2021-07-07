@@ -24,17 +24,23 @@
             android:layout_height="50dp"
             android:hint="Salary" />
 
-        <RadioButton
-            android:id="@+id/radioBtnMale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Male" />
+        <RadioGroup
+            android:id="@+id/rgGender"
+            android:layout_width="98dp"
+            android:layout_height="wrap_content">
 
-        <RadioButton
-            android:id="@+id/radioBtnFeMale"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Female" />
+            <RadioButton
+                android:id="@+id/radioBtnMale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Male" />
+
+            <RadioButton
+                android:id="@+id/radioBtnFeMale"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Female" />
+        </RadioGroup>
 
         <CheckBox
             android:id="@+id/cbActive"

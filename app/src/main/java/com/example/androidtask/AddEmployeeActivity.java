@@ -8,25 +8,41 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import java.util.Calendar;
 
 public class AddEmployeeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
-    private Button btnDate;
+    private Button btnDate,btnSave;
+
+    EditText etName,etSalary;
+    RadioGroup rgGende;
+    RadioButton rbtnGender;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_employee_activity);
+        rgGende = findViewById(R.id.rgGender);
 
         initDataPiker();
         btnDate = findViewById(R.id.btnDate);
         btnDate.setText(getTodayDate());
+        btnSave = findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String name = etName.getText().toString();
+                String salary = etSalary.getText().toString();
+            }
+        });
 
 
     }
-
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();
         int year = cal.get(Calendar.YEAR);
@@ -87,8 +103,8 @@ public class AddEmployeeActivity extends AppCompatActivity {
         return "JAN";
 
     }
-
     public void openDatePiker(View view) {
         datePickerDialog.show();
     }
+
 }
