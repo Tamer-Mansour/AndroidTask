@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         fbtnAdd= findViewById(R.id.fbtnAdd);
 
         fbtnAdd.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this,EmployeePage.class);
+            Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
             startActivity(intent);
         });
     }
