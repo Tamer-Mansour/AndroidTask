@@ -5,24 +5,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+
+import static com.example.androidtask.EmployeeData.Gender.Male;
 
 public class AddEmployeeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
-    private Button btnDate,btnSave;
+    private Button btnDate,btnSave,btnSubmit;
 
     EditText etName,etSalary;
     RadioGroup rgGende;
-    RadioButton rbtnGender;
-
-
+    CheckBox cbActive;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,18 +36,30 @@ public class AddEmployeeActivity extends AppCompatActivity {
         initDataPiker();
         btnDate = findViewById(R.id.btnDate);
         btnDate.setText(getTodayDate());
-
         btnSave = findViewById(R.id.btnSave);
+        btnSubmit = findViewById(R.id.btnSubmit);
+        etName =findViewById(R.id.etName);
+        etSalary = findViewById(R.id.etSalary);
+        cbActive = findViewById(R.id.cbActive);
 
-
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddEmployeeActivity.this,MainActivity.class);
-                startActivity(intent);
-            }
+        btnSubmit.setOnClickListener(v -> {
+            saveData();
+        });
+        btnSave.setOnClickListener(v -> {
+            Intent intent = new Intent(AddEmployeeActivity.this,MainActivity.class);
+            startActivity(intent);
         });
 
+    }
+    public void onClick(View view){
+        int tybe = 0;
+        StringBuilder result = new StringBuilder();
+        result.append("Gender");
+        if (Male.isChecked()){
+            result.append("Male");
+        }else {
+            result.append("Female");
+        }
     }
     private String getTodayDate() {
         Calendar cal = Calendar.getInstance();
@@ -105,9 +121,19 @@ public class AddEmployeeActivity extends AppCompatActivity {
         return "JAN";
 
     }
+    private void saveData() {
+        ArrayList<String> mEmployeeData = new ArrayList<>();
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        mEmployeeData.add(etName.getText().toString() + etSalary.getText().toString() +rgGende.toString()+);
+        editor.putString(" ", String.valueOf(mEmployeeData));
+        editor.apply();
+
+
+    }
+
     public void openDatePiker(View view) {
         datePickerDialog.show();
     }
-
 
 }

@@ -1,5 +1,6 @@
 package com.example.androidtask;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,11 +35,12 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
         return evh;
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull EmployeeAdapter.EmployeeViewHolder holder, int position) {
         EmployeeData currentItem = mEmployeeData.get(position);
         holder.textViewLine1.setText(currentItem.getName());
-        holder.textViewLine2.setText(currentItem.getSalary());
+        holder.textViewLine2.setText(" " +currentItem.getSalary());
     }
 
     @Override
