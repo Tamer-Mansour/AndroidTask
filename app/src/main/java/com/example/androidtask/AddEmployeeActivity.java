@@ -36,13 +36,13 @@ public class AddEmployeeActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
 
 
-//        btnSave.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(AddEmployeeActivity.this,MainActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddEmployeeActivity.this,MainActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
     private String getTodayDate() {
