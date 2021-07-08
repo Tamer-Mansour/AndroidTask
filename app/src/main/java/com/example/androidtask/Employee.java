@@ -1,19 +1,21 @@
 package com.example.androidtask;
 
+import android.widget.DatePicker;
+
 import java.util.Date;
 
-public class EmployeeData {
+public class Employee {
     private String name;
     private double salary;
     private Boolean active;
-    private Date date;
+    private DatePicker date;
     private Gender gender;
     enum Gender{
         Male,Female;
 
     }
 
-    public EmployeeData(String name, double salary, Boolean active, Date date, Gender gender) {
+    public Employee(String name, double salary, Boolean active, DatePicker date, Gender gender) {
         this.name = name;
         this.salary = salary;
         this.active = active;
@@ -45,11 +47,11 @@ public class EmployeeData {
         this.active = active;
     }
 
-    public Date getDate() {
+    public DatePicker getDate() {
         return date;
     }
 
-    public void setDate(Date date) {
+    public void setDate(DatePicker date) {
         this.date = date;
     }
 

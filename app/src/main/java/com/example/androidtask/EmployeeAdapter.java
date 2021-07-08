@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>  {
-    private ArrayList<EmployeeData> mEmployeeData;
+    private ArrayList<Employee> employeeList;
     public static class EmployeeViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewLine1;
         public TextView textViewLine2;
@@ -24,8 +24,8 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     }
     }
 
-    public EmployeeAdapter(ArrayList<EmployeeData> employeeList) {
-        mEmployeeData = employeeList;
+    public EmployeeAdapter(ArrayList<Employee> employeeLists) {
+        employeeList = employeeLists;
     }
 
     @Override
@@ -38,14 +38,14 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull EmployeeAdapter.EmployeeViewHolder holder, int position) {
-        EmployeeData currentItem = mEmployeeData.get(position);
+        Employee currentItem = employeeList.get(position);
         holder.textViewLine1.setText(currentItem.getName());
         holder.textViewLine2.setText(" " +currentItem.getSalary());
     }
 
     @Override
     public int getItemCount() {
-        return mEmployeeData.size();
+        return employeeList.size();
     }
 
 }

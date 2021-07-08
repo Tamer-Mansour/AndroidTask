@@ -5,80 +5,59 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.Button;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton fbtnAdd;
-    ArrayList<EmployeeData> mEmployeeData;
-    private RecyclerView mRecyclerView;
-    private RecyclerView.LayoutManager mLayoutManager;
+    ArrayList<Employee> employeeList;
+    private RecyclerView recyclerView;
+    private RecyclerView.LayoutManager layoutManager;
+    private EmployeeAdapter employeeAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        loadData();
+        buildRecyclerView();
 
         fbtnAdd = findViewById(R.id.fbtnAdd);
-        Date date = new Date(5/6/20);
-        mEmployeeData = new ArrayList<>();
-        mEmployeeData.add(new EmployeeData("tamer",800.5,true,date, EmployeeData.Gender.Male));
 
         fbtnAdd.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, AddEmployeeActivity.class);
             startActivity(intent);
         });
+    }
+    private void loadData() {
+        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("task list", null);
+        Type type = new TypeToken<ArrayList<Employee>>() {}.getType();
+        employeeList = gson.fromJson(json, type);
 
-        RecyclerView recyclerView =findViewById(R.id.recyclerview);
-        EmployeeAdapter adapter = new EmployeeAdapter(mEmployeeData);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(adapter);
-
+        if (employeeList == null) {
+            employeeList = new ArrayList<>();
+        }
     }
 
+    private void buildRecyclerView() {
+        recyclerView = findViewById(R.id.recyclerview);
+        recyclerView.setHasFixedSize(true);
+        layoutManager = new LinearLayoutManager(this);
+        employeeAdapter = new EmployeeAdapter(employeeList);
+
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(employeeAdapter);
+    }
+
+
+
 }
-
-
-
-//    private void saveData() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        Gson gson = new Gson();
-//        String json = gson.toJson(mEmployeeData);
-//        editor.putString("task list", json);
-//        editor.apply();
-//    }
-
-//    private void loadData() {
-//        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-//        Gson gson = new Gson();
-//        String json = sharedPreferences.getString(gson.toJson(mEmployeeData), null);
-//        Type type = new TypeToken<ArrayList<EmployeeData>>() {
-//        }.getType();
-//        mEmployeeData = gson.fromJson(json, type);
-//        if (mEmployeeData == null) {
-//            mEmployeeData = new ArrayList<>();
-//        }
-//    }
-
-//    private void buildRecyclerView() {
-//        mRecyclerView = findViewById(R.id.recyclerview);
-//        mRecyclerView.setHasFixedSize(true);
-//        mLayoutManager = new LinearLayoutManager(this);
-//        mEmployeeAdapter = new EmployeeAdapter(mEmployeeData);
-//        mRecyclerView.setLayoutManager(mLayoutManager);
-//        mRecyclerView.setAdapter(mEmployeeAdapter);
-//    }
-
-
-//    public void createData(String name, String salary) {
-//        mEmployeeData.add(new EmployeeData(name, salary));
-//        mEmployeeAdapter.notifyItemInserted(mEmployeeData.size());
-//
-//    }
