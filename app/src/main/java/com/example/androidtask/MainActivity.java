@@ -45,9 +45,9 @@ public class MainActivity extends AppCompatActivity {
         }.getType();
         employeeList = gson.fromJson(json, type);
 
-//        if (employeeList == null) {
-//            employeeList = new ArrayList<>();
-//        }
+        if (employeeList == null) {
+            employeeList = new ArrayList<>();
+        }
     }
 
     private void buildRecyclerView() {

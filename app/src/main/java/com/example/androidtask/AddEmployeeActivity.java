@@ -19,7 +19,9 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -155,17 +157,33 @@ public class AddEmployeeActivity extends AppCompatActivity {
         Employee.Gender gender;
         Employee employee = new Employee(name, salary, active, date, Employee.Gender.Male);
         Log.e("TAG", employee.getName() + " " + employee.getSalary() + " " + employee.getDate() + " " + employee.getGender() + " " + employee.getActive());
-
+//initialize ,ist
+        //get old data to list
+        //add new emplyee ot list
+        //chanege employee list to JSON
+        //SAVE json
 
         Gson gson = new Gson();
+        //get old data
+
+        String json = sharedPreferences.getString(AddEmployeeActivity.key, " ");
+        Type type = new TypeToken<ArrayList<Employee>>() {
+        }.getType();
+        employeeList = gson.fromJson(json, type);
+
+        if (employeeList == null) {
+            employeeList = new ArrayList<>();
+        }
+
         employeeList.add(employee);
-        String json = gson.toJson(employeeList);
-        Log.e(" ", json);
-        editor.putString(key, json);
+
+        String json_1 = gson.toJson(employeeList);
+        Log.e( key, json_1);
+        editor.putString(key, json_1);
         editor.apply();
 
-
     }
+    //get old data
 
     private void setSubmetButton() {
         btnSave = findViewById(R.id.btnSave);
