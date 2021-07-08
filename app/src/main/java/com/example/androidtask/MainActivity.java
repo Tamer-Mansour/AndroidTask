@@ -17,7 +17,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton fbtnAdd;
-    ArrayList<Employee> employeeList;
+    ArrayList<Employee> employeeList = new ArrayList<>();
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private EmployeeAdapter employeeAdapter;
@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     private void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString("task list", null);
+        String json = sharedPreferences.getString(AddEmployeeActivity.key, null);
         Type type = new TypeToken<ArrayList<Employee>>() {}.getType();
         employeeList = gson.fromJson(json, type);
 

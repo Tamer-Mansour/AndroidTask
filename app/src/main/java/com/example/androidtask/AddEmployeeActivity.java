@@ -1,13 +1,13 @@
 package com.example.androidtask;
 
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,29 +15,29 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
-import java.lang.reflect.Type;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 
 public class AddEmployeeActivity extends AppCompatActivity {
     private DatePickerDialog datePickerDialog;
-    private Button btnDate, btnSave, btnSubmit;
+    private Button btnSave;
     ArrayList<Employee> employeeList = new ArrayList<>();
-    private String key = "data";
+    DatePicker btnDate;
+    public final static String key = "data";
     EditText etName, etSalary;
     RadioGroup rgGende;
     CheckBox cbActive;
     EmployeeAdapter employeeAdapter;
-    RecyclerView recyclerView;
-    private RecyclerView.LayoutManager layoutManager;
+    RadioButton radioBtnMale,radioBtnFemale;
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,17 +47,20 @@ public class AddEmployeeActivity extends AppCompatActivity {
         initDataPiker();
         setSubmetButton();
         btnDate = findViewById(R.id.btnDate);
-        btnDate.setText(getTodayDate());
+
+        radioBtnMale = findViewById(R.id.radioBtnMale);
+        radioBtnFemale = findViewById(R.id.radioBtnFemale);
+
         btnSave = findViewById(R.id.btnSave);
-        btnSubmit = findViewById(R.id.btnSubmit);
         etName = findViewById(R.id.etName);
         etSalary = findViewById(R.id.etSalary);
         cbActive = findViewById(R.id.cbActive);
 
-        btnSubmit.setOnClickListener(v -> {
-            saveData();
-        });
+
+
+
         btnSave.setOnClickListener(v -> {
+            saveData();
             Intent intent = new Intent(AddEmployeeActivity.this, MainActivity.class);
             startActivity(intent);
         });
@@ -78,8 +81,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
             @Override
             public void onDateSet(DatePicker view, int year, int month, int day) {
                 month += 1;
-                String date = makeDateString(day, month, year);
-                btnDate.setText(date);
+
 
             }
         };
@@ -135,9 +137,9 @@ public class AddEmployeeActivity extends AppCompatActivity {
         switch (view.getId()) {
             case R.id.cbActive:
                 if (checked) {
-                    str.append(" " + employeeList);
+                    str.append("Active");
                 } else {
-                    str.append(" " + employeeList);
+                    str.append("InActive");
                 }
                 break;
         }
@@ -145,57 +147,35 @@ public class AddEmployeeActivity extends AppCompatActivity {
     }
 
     private void saveData() {
-
-        String name = etName.getText().toString();
-        Double salary = Double.parseDouble(etSalary.getText().toString());
-        boolean active = Boolean.parseBoolean(cbActive.getText().toString());
-        DatePicker date = datePickerDialog.getDatePicker();
-
-        Employee employee = new Employee(name, salary, active, date, Employee.Gender.Male);
-        Log.e("TAG", employee.getName() + " ");
-
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        //editor.putString(key,employee.getName());
+
+        String name = etName.getText().toString();
+        double salary = Double.parseDouble(etSalary.getText().toString());
+        boolean active = cbActive.isChecked();
+        LocalDate date = LocalDate.of(btnDate.getYear(), btnDate.getMonth(), btnDate.getDayOfMonth());
+        Employee.Gender gender;
+        Employee employee = new Employee(name, salary, active, date, Employee.Gender.Male);
+        Log.e("TAG", employee.getName() + " " + employee.getSalary() + " " + employee.getDate() + " " + employee.getGender() + " " + employee.getActive());
+
+
+        employeeList.add(employee);
         Gson gson = new Gson();
         String json = gson.toJson(employeeList);
         editor.putString(key, json);
         editor.apply();
 
-    }
 
-    private void loadData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = sharedPreferences.getString("task list", null);
-        Type type = new TypeToken<ArrayList<Employee>>() {
-        }.getType();
-        employeeList = gson.fromJson(json, type);
-
-        if (employeeList == null) {
-            employeeList = new ArrayList<>();
-        }
-    }
-
-    private void buildRecyclerView() {
-        recyclerView = findViewById(R.id.recyclerview);
-        recyclerView.setHasFixedSize(true);
-        layoutManager = new LinearLayoutManager(this);
-        employeeAdapter = new EmployeeAdapter(employeeList);
-
-        recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(employeeAdapter);
     }
 
     private void setSubmetButton() {
-        Button buttonSubmet = findViewById(R.id.btnSubmit);
-        buttonSubmet.setOnClickListener(v -> {
+        btnSave= findViewById(R.id.btnSave);
+        btnSave.setOnClickListener(v -> {
+            insertItem(etName.getText().toString(), Double.parseDouble(etSalary.getText().toString()),cbActive.isChecked(), LocalDate.now(), Employee.Gender.Male);
 
-            insertItem(etName.getText().toString(), etSalary.getText().toString(), ,datePickerDialog.getDatePicker().toString());
         });
     }
-
-    private void insertItem(String name, double salary, Boolean active, DatePicker date, Employee.Gender gender) {
+    private void insertItem(String name, double salary, boolean active, LocalDate date, Employee.Gender gender) {
         employeeList.add(new Employee(name, salary, active, date, gender));
         employeeAdapter.notifyItemInserted(employeeList.size());
     }

@@ -2,20 +2,21 @@ package com.example.androidtask;
 
 import android.widget.DatePicker;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 public class Employee {
     private String name;
     private double salary;
-    private Boolean active;
-    private DatePicker date;
+    private boolean active;
+    private LocalDate date;
     private Gender gender;
     enum Gender{
         Male,Female;
 
     }
 
-    public Employee(String name, double salary, Boolean active, DatePicker date, Gender gender) {
+    public Employee(String name, double salary, Boolean active, LocalDate date, Gender gender) {
         this.name = name;
         this.salary = salary;
         this.active = active;
@@ -47,11 +48,11 @@ public class Employee {
         this.active = active;
     }
 
-    public DatePicker getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(DatePicker date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

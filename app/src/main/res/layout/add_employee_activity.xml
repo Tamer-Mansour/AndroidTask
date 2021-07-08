@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -36,7 +36,7 @@
                 android:text="Male" />
 
             <RadioButton
-                android:id="@+id/radioBtnFeMale"
+                android:id="@+id/radioBtnFemale"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Female" />
@@ -49,31 +49,20 @@
             android:text="Active employee"
             android:onClick="onCheckBoxClicked"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:text="Enter Empliyee Date" />
 
-        <Button
+        <DatePicker
             android:id="@+id/btnDate"
-            style="?android:spinnerStyle"
             android:layout_width="match_parent"
-            android:text="Jan 01 2021"
-            android:textSize="35dp"
-            android:textColor="@color/black"
-            android:layout_height="69dp"
-            android:onClick="openDatePiker" />
+            android:layout_height="355dp"
+            android:onClick="openDatePiker"
+            android:textColor="@color/black" />
 
-        <Button
-            android:id="@+id/btnSubmit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="submet all" />
         <Button
             android:id="@+id/btnSave"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="svae" />
+            android:text="Save All" />
+
 
     </LinearLayout>
-</androidx.cardview.widget.CardView>
+</LinearLayout>

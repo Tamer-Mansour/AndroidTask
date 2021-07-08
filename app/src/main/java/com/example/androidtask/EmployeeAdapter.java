@@ -1,6 +1,7 @@
 package com.example.androidtask;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,7 +31,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
 
     @Override
     public EmployeeViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.employee_data, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.employee, parent, false);
         EmployeeViewHolder evh = new EmployeeViewHolder(v);
         return evh;
     }
@@ -38,6 +39,7 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull EmployeeAdapter.EmployeeViewHolder holder, int position) {
+        Log.e("Emp -- ", employeeList.toString());
         Employee currentItem = employeeList.get(position);
         holder.textViewLine1.setText(currentItem.getName());
         holder.textViewLine2.setText(" " +currentItem.getSalary());
