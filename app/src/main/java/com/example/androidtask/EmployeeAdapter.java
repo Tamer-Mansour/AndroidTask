@@ -39,8 +39,8 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull EmployeeAdapter.EmployeeViewHolder holder, int position) {
-        Log.e("Emp -- ", employeeList.toString());
         Employee currentItem = employeeList.get(position);
+
         holder.textViewLine1.setText(currentItem.getName());
         holder.textViewLine2.setText(" " +currentItem.getSalary());
     }
@@ -49,5 +49,6 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     public int getItemCount() {
         return employeeList.size();
     }
+
 
 }

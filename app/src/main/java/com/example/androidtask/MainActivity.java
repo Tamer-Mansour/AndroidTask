@@ -36,16 +36,18 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
     }
+
     private void loadData() {
         SharedPreferences sharedPreferences = getSharedPreferences("shared preferences", MODE_PRIVATE);
         Gson gson = new Gson();
-        String json = sharedPreferences.getString(AddEmployeeActivity.key, null);
-        Type type = new TypeToken<ArrayList<Employee>>() {}.getType();
+        String json = sharedPreferences.getString(AddEmployeeActivity.key, " ");
+        Type type = new TypeToken<ArrayList<Employee>>() {
+        }.getType();
         employeeList = gson.fromJson(json, type);
 
-        if (employeeList == null) {
-            employeeList = new ArrayList<>();
-        }
+//        if (employeeList == null) {
+//            employeeList = new ArrayList<>();
+//        }
     }
 
     private void buildRecyclerView() {
@@ -53,11 +55,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
         employeeAdapter = new EmployeeAdapter(employeeList);
-
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(employeeAdapter);
     }
-
-
-
 }

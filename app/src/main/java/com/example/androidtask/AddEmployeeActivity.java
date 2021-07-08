@@ -35,7 +35,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
     RadioGroup rgGende;
     CheckBox cbActive;
     EmployeeAdapter employeeAdapter;
-    RadioButton radioBtnMale,radioBtnFemale;
+    RadioButton radioBtnMale, radioBtnFemale;
 
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -55,8 +55,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
         etName = findViewById(R.id.etName);
         etSalary = findViewById(R.id.etSalary);
         cbActive = findViewById(R.id.cbActive);
-
-
 
 
         btnSave.setOnClickListener(v -> {
@@ -159,9 +157,10 @@ public class AddEmployeeActivity extends AppCompatActivity {
         Log.e("TAG", employee.getName() + " " + employee.getSalary() + " " + employee.getDate() + " " + employee.getGender() + " " + employee.getActive());
 
 
-        employeeList.add(employee);
         Gson gson = new Gson();
+        employeeList.add(employee);
         String json = gson.toJson(employeeList);
+        Log.e(" ", json);
         editor.putString(key, json);
         editor.apply();
 
@@ -169,12 +168,13 @@ public class AddEmployeeActivity extends AppCompatActivity {
     }
 
     private void setSubmetButton() {
-        btnSave= findViewById(R.id.btnSave);
+        btnSave = findViewById(R.id.btnSave);
         btnSave.setOnClickListener(v -> {
-            insertItem(etName.getText().toString(), Double.parseDouble(etSalary.getText().toString()),cbActive.isChecked(), LocalDate.now(), Employee.Gender.Male);
+            insertItem(etName.getText().toString(), Double.parseDouble(etSalary.getText().toString()), cbActive.isChecked(), LocalDate.now(), Employee.Gender.Male);
 
         });
     }
+
     private void insertItem(String name, double salary, boolean active, LocalDate date, Employee.Gender gender) {
         employeeList.add(new Employee(name, salary, active, date, gender));
         employeeAdapter.notifyItemInserted(employeeList.size());

@@ -52,8 +52,8 @@
 
         <DatePicker
             android:id="@+id/btnDate"
-            android:layout_width="match_parent"
-            android:layout_height="355dp"
+            android:layout_width="wrap_content"
+            android:layout_height="360dp"
             android:onClick="openDatePiker"
             android:textColor="@color/black" />
 
