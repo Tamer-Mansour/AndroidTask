@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.View;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
@@ -21,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private RecyclerView.LayoutManager layoutManager;
     private EmployeeAdapter employeeAdapter;
+    private EmployeeAdapter.RecyclerViewClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,11 +53,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void buildRecyclerView() {
+        setOnClickListener();
         recyclerView = findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        employeeAdapter = new EmployeeAdapter(employeeList);
+        employeeAdapter = new EmployeeAdapter(employeeList,listener);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(employeeAdapter);
+    }
+
+    private void setOnClickListener() {
+        listener  = (v, position) -> {
+
+            Intent intent = new Intent(getApplicationContext(),EmplyeeProfile.class);
+            intent.putExtra(AddEmployeeActivity.key ,"Name Is : "+employeeList.get(position).getName()+" \n\n "+"Salary Is : "+employeeList.get(position).getSalary()
+                    +" \n\n "+"Gender Is : "+employeeList.get(position).getGender() +" \n\n "+"Date Is : "+employeeList.get(position).getDate()
+                    +" \n\n "+"State Is : "+employeeList.get(position).getActive());
+
+            startActivity(intent);
+        };
     }
 }

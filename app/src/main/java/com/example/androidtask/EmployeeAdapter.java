@@ -14,19 +14,30 @@ import java.util.ArrayList;
 
 public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.EmployeeViewHolder>  {
     private ArrayList<Employee> employeeList;
-    public static class EmployeeViewHolder extends RecyclerView.ViewHolder {
+    private static RecyclerViewClickListener listener;
+
+
+    public static class EmployeeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+//        private RecyclerViewClickListener listener;
         public TextView textViewLine1;
         public TextView textViewLine2;
 
-    public EmployeeViewHolder(View itemView) {
+    public EmployeeViewHolder(final View itemView) {
         super(itemView);
         textViewLine1 = itemView.findViewById(R.id.textview_line1);
         textViewLine2 = itemView.findViewById(R.id.textview_line_2);
-    }
+        itemView.setOnClickListener(this);
     }
 
-    public EmployeeAdapter(ArrayList<Employee> employeeLists) {
+        @Override
+        public void onClick(View v) {
+           listener.onClick(v,getAdapterPosition());
+        }
+    }
+
+    public EmployeeAdapter(ArrayList<Employee> employeeLists ,RecyclerViewClickListener listener) {
         employeeList = employeeLists;
+        this.listener= listener;
     }
 
     @Override
@@ -49,6 +60,8 @@ public class EmployeeAdapter extends RecyclerView.Adapter<EmployeeAdapter.Employ
     public int getItemCount() {
         return employeeList.size();
     }
-
+    public interface RecyclerViewClickListener{
+        void onClick(View v , int position);
+    }
 
 }
